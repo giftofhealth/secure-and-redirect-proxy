@@ -1,5 +1,8 @@
+// To be parsed with JSON5 parser if you want to comment clearly
 {
-    "bitwarden.dsmit.com" : "https://rv-ubuntu-mac.local",
-    "receipts.giftofhealth.us": "https://receipts.local",
-    "receipts.kksfusa.org" : "https://receipts.local"
+    // Front end server : backend
+    'server1.mydomain.com' : 'https://mybackend1.local',
+    'server2.mydomain.com' : 'https://mybackend2.local',
+    'server3.mydomain.com' : 'https://external.host.com'
 }
+
