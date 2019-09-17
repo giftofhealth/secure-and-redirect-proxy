@@ -24,7 +24,7 @@ Once the certificates and keys are read for each of the front end
 servers you are securely proxying, the incoming traffic on the secure
 port and the plaintext port (if the plaintext redirection is turned
 on), will be securely proxied to configured backend servers.
-
+```
 
           +------------------------------------+
           |                                    |                     +-----------------+
@@ -59,3 +59,4 @@ Port 80   |              |                     |                     |          
                                                                                      |               |
                                                                                      |               |
                                                                                      +---------------+
+```
