@@ -1,0 +1,30 @@
+{
+  "name": "secure-and-redirect-proxy",
+  "version": "1.0.0",
+  "description": "A proxy server to redirect plaintext port for multiple back end servers and TLS front end for multiple backend servers",
+  "main": "proxy.js",
+  "scripts": {
+    "server": "node proxy.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/giftofhealth/secure-and-redirect-proxy.git"
+  },
+  "keywords": [
+    "Javascript",
+    "Secure",
+    "Proxy",
+    "Plaintext",
+    "redirector"
+  ],
+  "author": "Rajesh Vaidheeswarran",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/giftofhealth/secure-and-redirect-proxy/issues"
+  },
+  "homepage": "https://github.com/giftofhealth/secure-and-redirect-proxy#readme",
+  "dependencies": {
+    "http-proxy": "^1.17.0",
+    "node-getopt": "^0.3.2"
+  }
+}
