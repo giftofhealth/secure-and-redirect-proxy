@@ -7,6 +7,7 @@ Run ```npm install```
 ## Configuration
 
 A configuration file (default: ```proxies.json```) determines the front end to backend configuration
+```
     // To be parsed with JSON5 parser if you want to comment clearly
     {
         // Front end server : backend
@@ -14,7 +15,7 @@ A configuration file (default: ```proxies.json```) determines the front end to b
         'server2.mydomain.com' : 'https://mybackend2.local',
         'server3.mydomain.com' : 'https://external.host.com'
     }
-
+```
 ### Command line options
 Run ```npm run server -- -h``` to see the options.
 
