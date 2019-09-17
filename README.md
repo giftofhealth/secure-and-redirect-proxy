@@ -2,6 +2,9 @@
 A proxy server to redirect plaintext port for multiple back end servers and TLS front end for multiple backend servers
 
 ## Installation
+### Dependencies
+Use an ```npm``` version >= 10.16 for best results. To compartmentalize your npm, use http://nvm.sh
+
 Run ```npm install``` to install all the dependencies
 
 ## Configuration
