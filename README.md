@@ -2,7 +2,7 @@
 A proxy server to redirect plaintext port for multiple back end servers and TLS front end for multiple backend servers
 
 ## Installation
-Run ```npm install```
+Run ```npm install``` to install all the dependencies
 
 ## Configuration
 
@@ -17,7 +17,7 @@ A configuration file (default: ```proxies.json```) determines the front end to b
     }
 ```
 ### Command line options
-Run ```npm run server -- -h``` to see the options.
+Run ```node ./proxy.js -h``` to see the options.
 
 ### Network flow diagram
 
