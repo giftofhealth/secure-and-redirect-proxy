@@ -55,6 +55,11 @@ process.on('exit', (code) => {
   log(`Exit: ${code}`);
 });
 
+process.on('SIGHUP', (signal) => {
+    log("User requested HUP");
+    read_proxies_file();
+});
+
 const program = 'secure-proxy-redirector'
 const copyright = program + ` Copyright (C) 2019  Rajesh Vaidheeswarran
     This program comes with ABSOLUTELY NO WARRANTY
@@ -63,26 +68,32 @@ const copyright = program + ` Copyright (C) 2019  Rajesh Vaidheeswarran
 `;
 
 if (opt.options.version) console.log(`${copyright} Version v${version}`);
-
-const proxies = json5.parse(fs.readFileSync(opt.options.proxies));
-const hosts = Object.keys(proxies);
-
 if (!fs.existsSync(opt.options.certs)) {
     console.log("ERROR: Need a valid certificate directory");
     opt.showHelp();
     process.exit(-1);
 }
 
+
+var proxy = httpProxy.createProxyServer();
+var proxies;
+var hosts;
+var certificates = {};
+var default_host;
 function read_creds(host) {
     let dir = opt.options.certs + '/' + host + '/';
     return { key: fs.readFileSync(dir + opt.options.keyfile), cert: fs.readFileSync(dir + opt.options.certfile) };
 }
 
-var certificates = {};
-var proxy = httpProxy.createProxyServer();
+function read_proxies_file() {
+    log(`Reading ${opt.options.proxies}`);
+    proxies = json5.parse(fs.readFileSync(opt.options.proxies));
+    hosts = Object.keys(proxies);
+    default_host = hosts[0];
+    hosts.forEach((host) => certificates[host] = read_creds(host));
+}
 
-const default_host = hosts[0];
-hosts.forEach((host) => certificates[host] = read_creds(host));
+read_proxies_file();
 
 const snicb = (servername, cb) => {
     if (certificates[servername]) {
