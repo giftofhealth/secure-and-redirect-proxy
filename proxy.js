@@ -41,14 +41,18 @@ var opt = require('node-getopt').create([
     .bindHelp()     // bind option 'help' to default action
     .parseSystem(); // parse command line
 
-function log(str) {
+function log_int(str, req, func) {
     let d = Date().replace(/\(.*$/, '');
-    console.log(`${d} ${str}`);
+    if (req) func(`${d} ${req.connection.remoteAddress} ${str}`);
+    else func(`${d} ${str}`);
 }
 
-function err(str) {
-    let d = Date().replace(/\(.*$/, '');
-    console.error(`${d} ${str}`);
+function log(str, req) {
+    log_int(str, req, console.log);
+}
+
+function err(str, req) {
+    log_int(str, req, console.error);
 }
 
 process.on('exit', (code) => {
@@ -117,17 +121,18 @@ https.createServer({
     SNICallback: snicb
 }, function(req, res) {
     try {
-	log(`Proxy request for ${req.headers.host} => ${req.url}`);
+	log(`Proxy request for ${req.headers.host} => ${req.url}`, req);
 	if (req.headers.host in proxies) {
-	    log("Proxy to " + proxies[req.headers.host]);
+	    log("Proxy to " + proxies[req.headers.host], req);
+            req.headers['x-forwarded-for'] = req.connection.remoteAddress;
 	    proxy.web(req, res, { target: proxies[req.headers.host] });
 	} else {
 	    res.end("Hello, SSL World!");
 	}
     } catch (e) {
 	res.end("Sorry. Try calling us back later");
-	error(`Redirect failure for ${req.url}`);
-	error(e);
+	error(`Redirect failure for ${req.url}`, req);
+	error(e, req);
     }
 }).listen(parseInt(opt.options.secure), function() {
     log(`SSL Proxy listening on port ${opt.options.secure}`);
@@ -137,9 +142,9 @@ https.createServer({
 if (opt.options.redirect) {
     http.createServer((req, res) => {
 	try {
-	    log(`Plain text request to ${req.headers.host} => ${req.url}`);
+	    log(`Plain text request to ${req.headers.host} => ${req.url}`, req);
 	    if (req.headers.host in proxies) {
-		log(`Redirect to secure port ${req.headers.host}`);
+		log(`Redirect to secure port ${req.headers.host}`, req);
 		res.writeHead(302, {
 		    'Location': "https://" + req.headers.host + req.url
 		});
@@ -149,8 +154,8 @@ if (opt.options.redirect) {
 	    }
 	} catch (e) {
 	    res.end("Sorry. No one's home");
-	    error(`Redirect failure for ${req.url}`);
-	    error(e);
+	    error(`Redirect failure for ${req.url}`, req);
+	    error(e, req);
 	}
     }).listen(parseInt(opt.options.http), function() {
 	log(`HTTP redirector listening on port ${opt.options.http}`);
