@@ -130,7 +130,7 @@ if (opt.options.redirect) {
 	    if (req.headers.host in proxies) {
 		log(`Redirect to secure port ${req.headers.host}`);
 		res.writeHead(302, {
-		    'Location': "https://" + req.headers.host
+		    'Location': "https://" + req.headers.host + req.url
 		});
 		res.end(`Redirecting to the secure port at ${req.headers.host}`);
 	    } else {
