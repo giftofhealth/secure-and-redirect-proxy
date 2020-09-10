@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/giftofhealth/secure-and-redirect-proxy#readme",
   "dependencies": {
-    "http-proxy": "^1.17.0",
+    "http-proxy": "^1.18.1",
     "json5": "^2.1.0",
     "node-getopt": "^0.3.2"
   }
